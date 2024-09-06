@@ -17,6 +17,7 @@ api.interceptors.request.use(
             if (!isTokenValid(token)) {
                 // If token is invalid, log out the user
                 localStorage.removeItem('token');
+                alert('Login expired/invalid! Please relogin');
                 window.location.href = '/login'; // Redirect to login
                 return Promise.reject('Token expired');
             }
@@ -44,6 +45,7 @@ api.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             // Token expired or unauthorized, handle it accordingly
             localStorage.removeItem('token');
+            alert('Login expired/invalid!');
             window.location.href = '/login'; // Redirect to login page or handle logout
         }
         return Promise.reject(error);

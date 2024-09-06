@@ -31,6 +31,11 @@ const Login = () => {
         }
     };
 
+    // Function to handle redirect to the Registration page
+    const handleRegisterRedirect = () => {
+        window.location.href = '/registration';
+    };
+
     return (
         <Container maxWidth="xs">
             <Box
@@ -42,9 +47,6 @@ const Login = () => {
             >
                 <Typography variant="h5" component="h1" gutterBottom>
                     Welcome to Task Management App
-                </Typography>
-                <Typography variant="h4" component="h1" gutterBottom>
-                    Login
                 </Typography>
 
                 {/* Formik form */}
@@ -98,6 +100,17 @@ const Login = () => {
                             >
                                 {isSubmitting ? 'Logging in...' : 'Login'}
                             </Button>
+
+                            {/* Register Button */}
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                onClick={handleRegisterRedirect} // Register Redirect
+                                sx={{ mt: 1 }}
+                            >
+                                Register
+                            </Button>
+
                         </Form>
                     )}
                 </Formik>

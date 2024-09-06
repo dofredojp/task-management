@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Card, CardContent, Grid, CircularProgress, Button } from '@mui/material';
-
-// Function to get the JWT token from localStorage
-const getToken = () => localStorage.getItem('token');
+import NavBar from './NavBar';
+import api from '../services/axios'
 
 const TaskDashboard = () => {
-    const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -16,33 +13,24 @@ const TaskDashboard = () => {
     const [completedTasks, setCompletedTasks] = useState(0);
     const [pendingTasks, setPendingTasks] = useState(0);
 
-    const navigate = useNavigate(); // For navigation
+    const navigate = useNavigate();
 
     // Function to fetch tasks from the API
     const fetchTasks = async () => {
-        const token = getToken();
+
         try {
-            const response = await axios.get('http://localhost:3000/api/tasks', {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Attach the JWT token in the Authorization header
-                },
-            });
+            const response = await api.get('/api/tasks');
 
             const tasksData = response.data.tasks;
-            setTasks(tasksData);
 
-            // Calculate statistics
-            setTotalTasks(tasksData.length);
-            setCompletedTasks(tasksData.filter(task => task.completed).length);
-            setPendingTasks(tasksData.filter(task => !task.completed).length);
+            setTotalTasks(response.data.totalTasks);
+            setCompletedTasks(tasksData.filter(task => task.status == 'completed').length);
+            setPendingTasks(tasksData.filter(task => task.status != 'completed').length);
 
             setLoading(false);
         } catch (err) {
             console.log(err);
             setError('Failed to fetch tasks. Please relogin and try again.');
-
-            // Redirect to home page after successful login
-            // window.location.href = '/login';
             setLoading(false);
         }
     };
@@ -70,7 +58,9 @@ const TaskDashboard = () => {
     }
 
     return (
-        <Container style={{ marginTop: '20px' }}>
+        <>
+            <NavBar />
+            <Container style={{ marginTop: '20px' }}>
             <Typography variant="h4" gutterBottom>
                 Task Management Dashboard
             </Typography>
@@ -103,7 +93,6 @@ const TaskDashboard = () => {
                 </Grid>
             </Grid>
 
-
             {/* Button to Task Management Page */}
             <Button
                 variant="contained"
@@ -114,32 +103,8 @@ const TaskDashboard = () => {
                 Go to Task Management
             </Button>
 
-
-            {/* Task List */}
-            {/* {tasks.length === 0 ? (
-                <Typography variant="h6" color="textSecondary">
-                    No tasks available.
-                </Typography>
-            ) : (
-                <Grid container spacing={3}>
-                    {tasks.map((task) => (
-                        <Grid item xs={12} sm={6} md={4} key={task._id}>
-                            <Card>
-                                <CardContent>
-                                    <Typography variant="h6">{task.title}</Typography>
-                                    <Typography variant="body2" color="textSecondary">
-                                        {task.description}
-                                    </Typography>
-                                    <Typography variant="body2" color={task.completed ? 'green' : 'red'}>
-                                        {task.completed ? 'Completed' : 'Pending'}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                    </Grid>
-            )} */}
         </Container>
+        </>
     );
 };
 
