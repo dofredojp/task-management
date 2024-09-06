@@ -5,14 +5,14 @@ import api from '../services/axios';
 import NavBar from './NavBar';
 
 const ProfileSettings = () => {
-    const [profile, setProfile] = useState(null); // State to store profile data
-    const [loading, setLoading] = useState(true); // State for loading spinner
-    const [error, setError] = useState(''); // State for error messages
-    const [success, setSuccess] = useState(''); // State for success messages
-    const [openSnackbar, setOpenSnackbar] = useState(false); // Snackbar state
-    const [currentPassword, setCurrentPassword] = useState(''); // State for current password
-    const [newPassword, setNewPassword] = useState(''); // State for new password
-    const [confirmNewPassword, setConfirmNewPassword] = useState(''); // State for confirm new password
+    const [profile, setProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState(''); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,17 +21,17 @@ const ProfileSettings = () => {
                 // Verify token and fetch user profile
                 const response = await api.get('/api/profile');
 
-                setProfile(response.data); // Set profile data
+                setProfile(response.data);
             } catch (err) {
                 console.log(err)
                 setError('Failed to load profile. Please try again.');
                 setOpenSnackbar(true);
             } finally {
-                setLoading(false); // End loading state
+                setLoading(false);
             }
         };
 
-        fetchProfile(); // Fetch profile on component mount
+        fetchProfile();
     }, [navigate]);
 
     const handleCloseSnackbar = () => {
@@ -149,17 +149,6 @@ const ProfileSettings = () => {
                             Change Password
                         </Button>
 
-                        {/* Button to Back to Home */}
-                        {/* <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={() => navigate('/home')}
-                        >
-                            Back to Home
-                        </Button> */}
                     </Box>
 
                     {/* Snackbar for success or error messages */}

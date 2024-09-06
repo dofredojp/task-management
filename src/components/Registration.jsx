@@ -22,9 +22,9 @@ const validationSchema = Yup.object({
 });
 
 const Registration = () => {
-    const [openSnackbar, setOpenSnackbar] = useState(false);  // Snackbar state
-    const [errorMessage, setErrorMessage] = useState('');     // Error message for Snackbar
-    const navigate = useNavigate();                           // For page redirection
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();                        
 
     const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
@@ -35,24 +35,21 @@ const Registration = () => {
             username: '',
             email: '',
             password: '',
-            confirmPassword: '',  // New field
+            confirmPassword: '',  
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                // API call to the registration endpoint
                 await api.post('/api/signup', {
                     username: values.username,
                     email: values.email,
                     password: values.password,
                 });
 
-                // If registration is successful, show success notification
                 setOpenSnackbar(true);
-                setErrorMessage(''); // Clear error messages if successful
+                setErrorMessage(''); 
 
             } catch (error) {
-                // Handle error and display the error message in Snackbar
                 setErrorMessage(
                     error.response?.data?.message || 'Registration failed, please try again.'
                 );

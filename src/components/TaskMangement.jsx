@@ -277,7 +277,7 @@ const TaskManagement = () => {
                                 <TablePagination
                                     rowsPerPageOptions={[5, 10, 25]}
                                     component="div"
-                                    count={totalCount} // Use totalCount for pagination
+                                    count={totalCount}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onPageChange={handleChangePage}

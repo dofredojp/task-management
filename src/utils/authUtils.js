@@ -1,6 +1,5 @@
 import { jwtDecode } from "jwt-decode";
 
-// Function to check if token is expired or invalid
 export const isTokenValid = (token) => {
     if (!token) return false;
 

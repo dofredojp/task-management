@@ -1,8 +1,7 @@
-// import React from 'react';
+
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-// import axios from 'axios';
 import api from '../../services/axios'; // interceptor
 
 // Validation schema using Yup
@@ -15,23 +14,18 @@ const Login = () => {
     const handleLogin = async (values, { setSubmitting, setErrors }) => {
         try {
             // Axios API call to login
-            const response = await api.post('http://localhost:3000/api/login', values);
+            const response = await api.post('/api/login', values);
             const { token } = response.data;
 
-            // Store the JWT token in localStorage
             localStorage.setItem('token', token);
-
-            // Redirect to home page after successful login
             window.location.href = '/home';
         } catch (err) {
-            // Handle login error
             setErrors({ apiError: err.response?.data?.message || 'Login failed' });
         } finally {
             setSubmitting(false);
         }
     };
 
-    // Function to handle redirect to the Registration page
     const handleRegisterRedirect = () => {
         window.location.href = '/registration';
     };
